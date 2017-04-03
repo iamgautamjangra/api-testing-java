@@ -3,7 +3,7 @@
 <suite name="API TESTING" verbose="1">
 	<test name="suite 1">
 		<classes>
-			<class name="com.api.TestSample" />
+			<class name="test.java.com.api.TestSample" />
 		</classes>
 	</test>
 </suite>

@@ -1,4 +1,7 @@
-package com.api;
+package test.java.com.api;
+
+
+import main.java.com.api.RequestExecutor;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

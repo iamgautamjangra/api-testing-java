@@ -2,15 +2,12 @@ package com.api;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
+
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -18,7 +15,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
 
 public class RequestExecutor {
 	private HttpClient client;
@@ -29,6 +25,10 @@ public class RequestExecutor {
 		this.url = url;
 	}
 
+	/**
+	 * Method to executes GET request.
+	 * 
+	 */
 	public ResponseValidator get(String path, HashMap<String, String> headers) {
 		HttpGet request = new HttpGet(url + path);
 		HttpResponse response;
@@ -82,7 +82,7 @@ public class RequestExecutor {
 	}
 
 	/**
-	 * Executes POST request and returns response json.
+	 * Method to executes POST request.
 	 * 
 	 */
 	public ResponseValidator post(String path, HashMap<String, String> headers,
@@ -91,14 +91,13 @@ public class RequestExecutor {
 		ResponseExtractor resResponse = new ResponseExtractor();
 		StringBuffer responseString = new StringBuffer();
 		try {
-			if (headers != null)
-				post.setEntity(getEntities(headers));
-			/*
-			 * Setting the xml content and content type.
-			 */
-			StringEntity input = new StringEntity(xmlContent);
-			input.setContentType(contentType);
-			post.setEntity(input);
+			if (headers != null) {
+				Set<String> keys = headers.keySet();
+				for (String key : keys) {
+					post.addHeader(key, headers.get(key));
+				}
+			}
+
 			HttpResponse response = client.execute(post);
 			BufferedReader rd = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent()));
@@ -121,12 +120,8 @@ public class RequestExecutor {
 		return new ResponseValidator(resResponse);
 	}
 
-	public ResponseValidator delete(String path) {
-		return delete(path, null);
-	}
-
 	/**
-	 * Executes DELETE request and returns response json.
+	 * Method to executes DELETE request.
 	 * 
 	 */
 	public ResponseValidator delete(String path, HashMap<String, String> headers) {
@@ -163,21 +158,25 @@ public class RequestExecutor {
 	}
 
 	/**
-	 * Executes PUT request and returns response json.
+	 * Method to executes PUT request.
 	 * 
 	 */
 	public ResponseValidator put(String path, HashMap<String, String> headers,
 			String xmlContent, String contentType) {
-		HttpPut post = new HttpPut(url + path);
+		HttpPut put = new HttpPut(url + path);
 		ResponseExtractor resResponse = new ResponseExtractor();
 		StringBuffer responseString = new StringBuffer();
 		try {
-			if (headers != null)
-				post.setEntity(getEntities(headers));
+			if (headers != null) {
+				Set<String> keys = headers.keySet();
+				for (String key : keys) {
+					put.addHeader(key, headers.get(key));
+				}
+			}
 			StringEntity input = new StringEntity(xmlContent);
 			input.setContentType(contentType);
-			post.setEntity(input);
-			HttpResponse response = client.execute(post);
+			put.setEntity(input);
+			HttpResponse response = client.execute(put);
 			BufferedReader rd = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent()));
 			String line = "";
@@ -200,22 +199,26 @@ public class RequestExecutor {
 	}
 
 	/**
-	 * Executes PATCH request and returns response json.
+	 * Method to executes PATCH request.
 	 * 
 	 */
 	public ResponseValidator patch(String path,
 			HashMap<String, String> headers, String xmlContent,
 			String contentType) {
-		HttpPatch post = new HttpPatch(url + path);
+		HttpPatch patch = new HttpPatch(url + path);
 		ResponseExtractor resResponse = new ResponseExtractor();
 		StringBuffer responseString = new StringBuffer();
 		try {
-			if (headers != null)
-				post.setEntity(getEntities(headers));
+			if (headers != null) {
+				Set<String> keys = headers.keySet();
+				for (String key : keys) {
+					patch.addHeader(key, headers.get(key));
+				}
+			}
 			StringEntity input = new StringEntity(xmlContent);
 			input.setContentType(contentType);
-			post.setEntity(input);
-			HttpResponse response = client.execute(post);
+			patch.setEntity(input);
+			HttpResponse response = client.execute(patch);
 			BufferedReader rd = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent()));
 			String line = "";
@@ -236,13 +239,13 @@ public class RequestExecutor {
 		}
 		return new ResponseValidator(resResponse);
 	}
-
-	/**
+/*
+	*//**
 	 * Gets the hashmap turns it in HttpEntity nameValuePair.
 	 * 
 	 * @param inputEntities
 	 * @return
-	 */
+	 *//*
 	private HttpEntity getEntities(HashMap<String, String> inputEntities) {
 		List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>(
 				inputEntities.size());
@@ -257,5 +260,5 @@ public class RequestExecutor {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
 }

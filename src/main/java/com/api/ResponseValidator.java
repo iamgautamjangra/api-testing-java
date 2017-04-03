@@ -1,4 +1,4 @@
-package com.api;
+package main.java.com.api;
 
 import java.util.HashMap;
 import java.util.Set;

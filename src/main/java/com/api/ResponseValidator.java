@@ -65,7 +65,6 @@ public class ResponseValidator {
 
 	public ResponseValidator assertContentWithKeyResponseBody(String key, String content) {
 		JSONObject jsonObj = new JSONObject(response.getResponseBody());
-		jsonObj.get(key);
 		Assert.assertEquals(jsonObj.get(key), content);
 		return this;
 	}

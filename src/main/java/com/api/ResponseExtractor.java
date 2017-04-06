@@ -2,6 +2,8 @@ package main.java.com.api;
 
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
 public class ResponseExtractor {
 	private int responseCode;
 	private String responseBody;
@@ -46,5 +48,11 @@ public class ResponseExtractor {
 
 	public void setResponseMessage(String responseMessage) {
 		this.responseMessage = responseMessage;
+	}
+	
+
+	public <T> T getValueFromResponseBody(String key, Class<T> type) {
+		JSONObject jsonObj = new JSONObject(responseBody);
+	    return type.cast(jsonObj.get(key));
 	}
 }

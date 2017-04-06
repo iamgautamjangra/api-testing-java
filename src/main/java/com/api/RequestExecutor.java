@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -86,7 +87,7 @@ public class RequestExecutor {
 	 * 
 	 */
 	public ResponseValidator post(String path, HashMap<String, String> headers,
-			String xmlContent, String contentType) {
+			String requestBody, String contentType) {
 		HttpPost post = new HttpPost(url + path);
 		ResponseExtractor resResponse = new ResponseExtractor();
 		StringBuffer responseString = new StringBuffer();
@@ -97,7 +98,11 @@ public class RequestExecutor {
 					post.addHeader(key, headers.get(key));
 				}
 			}
-
+            
+			StringEntity requestEntity = new StringEntity(
+					requestBody,
+				    ContentType.APPLICATION_JSON);
+			post.setEntity(requestEntity);
 			HttpResponse response = client.execute(post);
 			BufferedReader rd = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent()));
@@ -135,6 +140,7 @@ public class RequestExecutor {
 					delete.addHeader(key, headers.get(key));
 				}
 			}
+			
 			HttpResponse response = client.execute(delete);
 			BufferedReader rd = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent()));

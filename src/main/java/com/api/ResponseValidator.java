@@ -3,6 +3,7 @@ package main.java.com.api;
 import java.util.HashMap;
 import java.util.Set;
 
+import org.json.JSONObject;
 import org.testng.Assert;
 
 /**
@@ -59,6 +60,13 @@ public class ResponseValidator {
 
 	public ResponseValidator assertContentInResponseBody(String content) {
 		Assert.assertTrue(response.getResponseBody().contains(content));
+		return this;
+	}
+
+	public ResponseValidator assertContentWithKeyResponseBody(String key, String content) {
+		JSONObject jsonObj = new JSONObject(response.getResponseBody());
+		jsonObj.get(key);
+		Assert.assertEquals(jsonObj.get(key), content);
 		return this;
 	}
 

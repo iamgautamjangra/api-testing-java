@@ -45,7 +45,7 @@ public class TestSample {
 
 	}
 	
-	@Test(priority = 2)
+	@Test(priority = 3)
 	public void testPUTRequest() {
 		String request = "{\"name\": \"morpheus\",\"job\": \"manager\"}";
 		executor.put("/api/users/"+id, null, request, "application/json")

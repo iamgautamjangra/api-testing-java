@@ -59,5 +59,9 @@ public class TestSample {
 				.assertContentWithKeyResponseBody("job", "manager");
 		
 	}
+	
+	public void test() {
+		
+	}
 
 }
